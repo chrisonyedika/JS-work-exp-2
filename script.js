@@ -2,6 +2,8 @@ let expression = "";
 let justCalculated = false;
 let memoryValue = 0;
 const display = document.getElementById("display");
+const displayValue = document.getElementById("display-value");
+const memoryIndicator = document.getElementById("memory-indicator");
 const historyList = document.getElementById("history-list");
 
 function formatResult(value) {
@@ -101,15 +103,46 @@ function evaluateCurrentExpression() {
   return parseExpression(expression);
 }
 
+function getCurrentNumber() {
+  const number = expression.match(/-?\d*\.?\d+$/)?.[0];
+  return number === undefined ? null : Number(number);
+}
+
 function updateDisplay() {
-  display.textContent = expression || "0";
+  displayValue.textContent = expression || "0";
+  memoryIndicator.hidden = memoryValue === 0;
 }
 
 function addToHistory(expressionText, result) {
   const item = document.createElement("li");
   item.textContent = `${expressionText} = ${result}`;
   historyList.prepend(item);
+
+  const savedHistory = JSON.parse(
+    localStorage.getItem("calculatorHistory") || "[]",
+  );
+  savedHistory.unshift({ expression: expressionText, result });
+  localStorage.setItem(
+    "calculatorHistory",
+    JSON.stringify(savedHistory.slice(0, 20)),
+  );
 }
+
+function loadHistory() {
+  const savedHistory = JSON.parse(
+    localStorage.getItem("calculatorHistory") || "[]",
+  );
+  savedHistory.forEach(({ expression: expressionText, result }) => {
+    const item = document.createElement("li");
+    item.textContent = `${expressionText} = ${result}`;
+    historyList.append(item);
+  });
+}
+
+document.querySelector("#history-clear").addEventListener("click", () => {
+  historyList.replaceChildren();
+  localStorage.removeItem("calculatorHistory");
+});
 
 function appendNumber(number) {
   if (justCalculated) {
@@ -248,19 +281,42 @@ document.querySelector("#sign").addEventListener("click", () => {
 
 document.querySelector("#memory-clear").addEventListener("click", () => {
   memoryValue = 0;
+  updateDisplay();
 });
 
 document.querySelector("#memory-recall").addEventListener("click", () => {
-  appendNumber(formatResult(memoryValue));
+  const recalledValue = formatResult(memoryValue);
+  if (justCalculated || !expression) {
+    expression = recalledValue;
+    justCalculated = false;
+  } else if (/[+\-*/(]\s*$/.test(expression)) {
+    expression += recalledValue;
+  } else {
+    const currentNumber = expression.match(/\d*\.?\d+$/)?.[0];
+    expression = currentNumber
+      ? expression.slice(0, -currentNumber.length) + recalledValue
+      : recalledValue;
+  }
+  updateDisplay();
 });
 
 document.querySelector("#memory-add").addEventListener("click", () => {
-  memoryValue += evaluateCurrentExpression();
+  const currentNumber = getCurrentNumber();
+  if (currentNumber !== null) {
+    memoryValue += currentNumber;
+    updateDisplay();
+  }
 });
 
 document.querySelector("#memory-subtract").addEventListener("click", () => {
-  memoryValue -= evaluateCurrentExpression();
+  const currentNumber = getCurrentNumber();
+  if (currentNumber !== null) {
+    memoryValue -= currentNumber;
+    updateDisplay();
+  }
 });
+
+loadHistory();
 
 document.addEventListener("keydown", (event) => {
   const key = event.key;

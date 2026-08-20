@@ -10,7 +10,21 @@
 }
 .history h2 {
   font-size: 1.1em;
-  margin: 0 0 8px;
+  margin: 0;
+}
+.history-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.history-clear {
+  background: transparent;
+  border: 1px solid #777;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  padding: 4px 8px;
 }
 #history-list {
   margin: 0;
@@ -45,6 +59,12 @@
   text-align: right;
   font-size: 4em;
   padding: 10px;
+}
+.memory-indicator {
+  float: left;
+  color: #ff9500;
+  font-size: 0.35em;
+  font-weight: bold;
 }
 .btn {
   padding: 10px;

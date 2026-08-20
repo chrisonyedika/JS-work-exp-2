@@ -9,7 +9,15 @@
 
   <body>
     <div class="calculator">
-      <div class="display" id="display">0</div>
+      <div class="display" id="display">
+        <span
+          class="memory-indicator"
+          id="memory-indicator"
+          aria-label="Memory contains a value"
+          >M</span
+        >
+        <span id="display-value">0</span>
+      </div>
 
       <div class="buttons">
         <button class="btn clear" id="clear">AC</button>
@@ -40,7 +48,18 @@
         <button class="btn decimal" data-decimal=".">.</button>
       </div>
       <section class="history" aria-label="Calculation history">
-        <h2>History</h2>
+        <div class="history-heading">
+          <h2>History</h2>
+          <button
+            class="history-clear"
+            id="history-clear"
+            type="button"
+            aria-label="Clear history"
+            title="Clear history"
+          >
+            CL
+          </button>
+        </div>
         <ol id="history-list"></ol>
       </section>
     </div>
