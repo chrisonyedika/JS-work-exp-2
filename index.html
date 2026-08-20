@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="calculator">
+      <div class="display" id="display">0</div>
+
+      <div class="buttons">
+        <button class="btn clear" id="clear">AC</button>
+        <button class="btn delete" id="delete">DEL</button>
+        <button class="btn utility" id="percent">%</button>
+        <button class="btn utility" id="sign">±</button>
+        <button class="btn utility memory" id="memory-clear">MC</button>
+        <button class="btn utility memory" id="memory-recall">MR</button>
+        <button class="btn utility memory" id="memory-add">M+</button>
+        <button class="btn utility memory" id="memory-subtract">M-</button>
+        <button class="btn utility parenthesis" data-parenthesis="(">(</button>
+        <button class="btn utility parenthesis" data-parenthesis=")">)</button>
+        <button class="btn operator" data-operator="/">/</button>
+        <button class="btn operator" data-operator="*">*</button>
+        <button class="btn number" data-number="7">7</button>
+        <button class="btn number" data-number="8">8</button>
+        <button class="btn number" data-number="9">9</button>
+        <button class="btn operator" data-operator="-">-</button>
+        <button class="btn number" data-number="4">4</button>
+        <button class="btn number" data-number="5">5</button>
+        <button class="btn number" data-number="6">6</button>
+        <button class="btn operator" data-operator="+">+</button>
+        <button class="btn number" data-number="1">1</button>
+        <button class="btn number" data-number="2">2</button>
+        <button class="btn number" data-number="3">3</button>
+        <button class="btn equals" data-equals="=">=</button>
+        <button class="btn number" data-number="0">0</button>
+        <button class="btn decimal" data-decimal=".">.</button>
+      </div>
+      <section class="history" aria-label="Calculation history">
+        <h2>History</h2>
+        <ol id="history-list"></ol>
+      </section>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
